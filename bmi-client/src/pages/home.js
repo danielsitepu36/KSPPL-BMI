@@ -175,10 +175,10 @@ class home extends Component {
                   <div>
                     <hr className={classes.visibleSeparator} />
                     <Typography variant="h6" className={classes.Result}>
-                      Your BMI score = {this.state.value}
+                      Your BMI score = {this.state.value.toFixed(2)}
                     </Typography>
                     <Typography variant="h6" className={classes.Result}>
-                      Your Category = {this.state.category}
+                      Weight category = {this.state.category}
                     </Typography>
                   </div>
                 )}
