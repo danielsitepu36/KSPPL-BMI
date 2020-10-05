@@ -4,7 +4,7 @@ const isEmpty = (string) => {
 };
 
 const isNotValid = (string) => {
-  if (!parseFloat(string) > 0) return true;
+  if (parseFloat(string) <= 0) return true;
   else return false;
 };
 
