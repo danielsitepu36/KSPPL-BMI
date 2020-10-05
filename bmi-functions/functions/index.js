@@ -1,13 +1,15 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
-// const cors = require("cors");
-// app.use(cors());
+const cors = require("cors");
+const { validateData } = require("./util/validators");
+app.use(cors());
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 
 // exports.helloWorld = functions.https.onRequest((req, res) => {
+//   return res.json("Hello");
 // });
 
 const countBMI = (req, res) => {
@@ -17,25 +19,16 @@ const countBMI = (req, res) => {
     height: req.body.height,
   };
 
+  const { valid, errors } = validateData(userData);
+  if (!valid) return res.status(400).json(errors);
+
   const result = {
     value: 0,
     category: "Normal",
   };
-  if (
-    userData.age == null ||
-    userData.weight == null ||
-    userData.height == null
-  ) {
-    return res.status(400).json({ error: "Data is not complete" });
-  }
 
   BMIWeight = parseFloat(userData.weight);
   BMIHeight = parseFloat(userData.height) / 100.0;
-  if (!userData.age > 0 || !BMIHeight > 0 || !BMIWeight > 0) {
-    return res
-      .status(400)
-      .json({ error: "Data must be a number & bigger than 0" });
-  }
 
   result.value = BMIWeight / (BMIHeight * BMIHeight);
 
