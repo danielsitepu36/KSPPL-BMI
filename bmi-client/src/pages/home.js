@@ -83,7 +83,6 @@ class home extends Component {
           loading: false,
           result: false,
         });
-        console.log(err.response.data);
       });
   };
 
