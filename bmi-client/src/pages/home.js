@@ -35,6 +35,7 @@ const styles = (theme) => ({
   },
   Result: {
     textAlign: "left",
+    marginLeft: "10%",
   },
   visibleSeparator: {
     width: "80%",
@@ -54,7 +55,10 @@ class home extends Component {
       height: "",
       loading: false,
       result: false,
+      notNormal: false,
       errors: {},
+      lWeight: "",
+      hWeight: "",
     };
   }
 
@@ -73,15 +77,24 @@ class home extends Component {
         this.setState({
           value: res.data.result.value,
           category: res.data.result.category,
+          lWeight: res.data.result.LWeight,
+          hWeight: res.data.result.HWeight,
+          notNormal: false,
           result: true,
           loading: false,
         });
+        if (this.state.lWeight != 0 && this.state.hWeight != 0) {
+          this.setState({
+            notNormal: true,
+          });
+        }
       })
       .catch((err) => {
         this.setState({
           errors: err.response.data,
           loading: false,
           result: false,
+          notNormal: false,
         });
       });
   };
@@ -96,15 +109,15 @@ class home extends Component {
     return (
       <div className={classes.main}>
         <Grid container>
-          <Grid item sm={1} lg={3} xl={4}></Grid>
-          <Grid item sm={10} lg={6} xl={4}>
+          <Grid item sm={1} md={2} lg={3} xl={3}></Grid>
+          <Grid item sm={10} md={8} lg={6} xl={6}>
             <Card className={classes.form}>
               <CardContent>
                 <Typography variant="h2" className={classes.Title}>
                   Body Mass Index
                 </Typography>
                 <Typography variant="h6" className={classes.Title}>
-                  Created using React, Express and Firebase
+                  Created using React, Express, and Firebase
                 </Typography>
                 <Typography className={classes.Title}>
                   By Daniel Suranta S | 18/424185/PA/18290
@@ -116,7 +129,7 @@ class home extends Component {
                     id="age"
                     name="age"
                     type="age"
-                    label="Age"
+                    label="Age (e.g. 22)"
                     className={classes.TextField}
                     helperText={!this.state.result && this.state.errors.age}
                     error={
@@ -130,7 +143,7 @@ class home extends Component {
                     id="weight"
                     name="weight"
                     type="weight"
-                    label="Weight"
+                    label="Weight (in kg, e.g. 60)"
                     className={classes.TextField}
                     helperText={!this.state.result && this.state.errors.weight}
                     error={
@@ -146,7 +159,7 @@ class home extends Component {
                     id="height"
                     name="height"
                     type="height"
-                    label="Height"
+                    label="Height (in cm, e.g. 165)"
                     className={classes.TextField}
                     helperText={!this.state.result && this.state.errors.height}
                     error={
@@ -179,6 +192,14 @@ class home extends Component {
                     </Typography>
                     <Typography variant="h6" className={classes.Result}>
                       Weight category = {this.state.category}
+                    </Typography>
+                  </div>
+                )}
+                {this.state.notNormal && (
+                  <div>
+                    <Typography variant="h6" className={classes.Result}>
+                      Optimal weight for you = {this.state.lWeight.toFixed(2)}{" "}
+                      kg - {this.state.hWeight.toFixed(2)} kg
                     </Typography>
                   </div>
                 )}

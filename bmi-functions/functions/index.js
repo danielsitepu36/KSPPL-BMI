@@ -25,6 +25,8 @@ const countBMI = (req, res) => {
   const result = {
     value: 0,
     category: "Normal",
+    LWeight: 0,
+    HWeight: 0,
   };
 
   BMIWeight = parseFloat(userData.weight);
@@ -32,14 +34,41 @@ const countBMI = (req, res) => {
 
   result.value = BMIWeight / (BMIHeight * BMIHeight);
 
+  const BMIRating = {
+    lowest: "Very severely underweight",
+    v_low: "Very underweight",
+    low: "Underweight",
+    norm: "Normal",
+    high: "Overweight",
+    v_high1: "Obese Class I (Moderately obese)",
+    v_high2: "Obese Class II (Severely obese)",
+    highest: "Obese Class III (Very severely obese)",
+  };
+
   if (result.value < 18.5) {
-    result.category = "Underweight";
+    result.LWeight = 18.5 * (BMIHeight * BMIHeight);
+    result.HWeight = 25 * (BMIHeight * BMIHeight);
+    if (result.value < 15) {
+      result.category = BMIRating.lowest;
+    } else if (result.value < 16) {
+      result.category = BMIRating.v_low;
+    } else {
+      result.category = BMIRating.low;
+    }
   } else if (result.value < 25) {
-    result.category = "Normal";
-  } else if (result.value < 30) {
-    result.category = "Overweight";
+    result.category = BMIRating.norm;
   } else {
-    result.category = "Obese";
+    result.LWeight = 18.5 * (BMIHeight * BMIHeight);
+    result.HWeight = 25 * (BMIHeight * BMIHeight);
+    if (result.value < 30) {
+      result.category = BMIRating.high;
+    } else if (result.value < 35) {
+      result.category = BMIRating.v_high1;
+    } else if (result.value < 40) {
+      result.category = BMIRating.v_high2;
+    } else {
+      result.category = BMIRating.highest;
+    }
   }
 
   return res.json({ result });
