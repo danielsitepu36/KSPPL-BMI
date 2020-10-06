@@ -109,8 +109,8 @@ class home extends Component {
     return (
       <div className={classes.main}>
         <Grid container>
-          <Grid item sm={1} md={2} lg={3} xl={3}></Grid>
-          <Grid item sm={10} md={8} lg={6} xl={6}>
+          <Grid item sm={1} md={2} lg={3} xl={2}></Grid>
+          <Grid item sm={10} md={8} lg={6} xl={8}>
             <Card className={classes.form}>
               <CardContent>
                 <Typography variant="h2" className={classes.Title}>
