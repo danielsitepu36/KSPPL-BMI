@@ -18,14 +18,15 @@ const styles = (theme) => ({
   form: {
     textAlign: "center",
   },
+  MainForm: {
+    marginLeft: "8%",
+    marginRight: "8%",
+  },
   TextField: {
     margin: "8px auto",
   },
   Title: {
     margin: "2px auto",
-  },
-  Left: {
-    textAlign: "left",
   },
   Button: {
     marginTop: "10px",
@@ -36,9 +37,10 @@ const styles = (theme) => ({
   Result: {
     textAlign: "left",
     marginLeft: "10%",
+    marginRight: "10%",
   },
   visibleSeparator: {
-    width: "80%",
+    width: "84%",
     borderBottom: "1px solid rgba(0,0,0,0.1)",
     marginBottom: 20,
   },
@@ -83,7 +85,7 @@ class home extends Component {
           result: true,
           loading: false,
         });
-        if (this.state.lWeight != 0 && this.state.hWeight != 0) {
+        if (this.state.lWeight !== 0 && this.state.hWeight !== 0) {
           this.setState({
             notNormal: true,
           });
@@ -124,11 +126,15 @@ class home extends Component {
                 </Typography>
                 <hr className={classes.visibleSeparator} />
                 <Typography variant="h5">Fill your data</Typography>
-                <form noValidate onSubmit={this.handleSubmit}>
+                <form
+                  noValidate
+                  onSubmit={this.handleSubmit}
+                  className={classes.MainForm}
+                >
                   <TextField
                     id="age"
                     name="age"
-                    type="age"
+                    type="text"
                     label="Age (e.g. 22)"
                     className={classes.TextField}
                     helperText={!this.state.result && this.state.errors.age}
@@ -142,7 +148,7 @@ class home extends Component {
                   <TextField
                     id="weight"
                     name="weight"
-                    type="weight"
+                    type="text"
                     label="Weight (in kg, e.g. 60)"
                     className={classes.TextField}
                     helperText={!this.state.result && this.state.errors.weight}
@@ -158,7 +164,7 @@ class home extends Component {
                   <TextField
                     id="height"
                     name="height"
-                    type="height"
+                    type="text"
                     label="Height (in cm, e.g. 165)"
                     className={classes.TextField}
                     helperText={!this.state.result && this.state.errors.height}
@@ -187,17 +193,17 @@ class home extends Component {
                 {this.state.result && (
                   <div>
                     <hr className={classes.visibleSeparator} />
-                    <Typography variant="h6" className={classes.Result}>
+                    <Typography className={classes.Result}>
                       Your BMI score = {this.state.value.toFixed(2)}
                     </Typography>
-                    <Typography variant="h6" className={classes.Result}>
+                    <Typography className={classes.Result}>
                       Weight category = {this.state.category}
                     </Typography>
                   </div>
                 )}
                 {this.state.notNormal && (
                   <div>
-                    <Typography variant="h6" className={classes.Result}>
+                    <Typography className={classes.Result}>
                       Optimal weight for you = {this.state.lWeight.toFixed(2)}{" "}
                       kg - {this.state.hWeight.toFixed(2)} kg
                     </Typography>
